@@ -3,6 +3,8 @@ import Group from './component/group'
 import Timetable from '../class/timetable'
 import './registration.css'
 
+//need to do undo & redo buttons
+
 export default class Registration extends React.Component{
     constructor(props){
         super(props);

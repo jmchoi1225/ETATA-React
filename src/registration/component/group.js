@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import GroupsClass from '../../class/group';
+import '../../class/group';
 
 const copyToClipboard = str => {
     const el = document.createElement('textarea');  // Create a <textarea> element
@@ -58,7 +58,6 @@ export default class Group extends Component{
         this._selected = this._selected.bind(this);
         this._success = this._success.bind(this);
         this._fail = this._fail.bind(this);
-        console.log(this.props.overlapCount);
     }
     
     _initiateCourseStatus(){
@@ -98,7 +97,7 @@ export default class Group extends Component{
         if(this.state.curCourse && !this.state.finished){
             this._changeCourseStatus(this.state.curCourse["rank"],this.state.curCourse["idx"], "success");
             this.setState({finished : true});
-            this.props._processOverlap(this.props.index, this.state.curCourse);
+            this.props._processOverlap(this.props.index, this.state.curCourse, false);
         }
         
     }

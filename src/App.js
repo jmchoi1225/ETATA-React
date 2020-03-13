@@ -1,6 +1,8 @@
-import React from 'react';
+import React from 'react'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {Group, Course} from './class/group'
 import Registration from './registration/registration'
+import Main from './main/main'
 import logo from './logo.svg';
 import './App.css';
 
@@ -23,33 +25,22 @@ for(let g =0; g<2; g++){
 
 class App extends React.Component {
   state = {
-    page : "registration", // getGroups || main || registration
     groups : tmpGroups
   }
   _setGroups(groups){
     this.setState({groups})
   }
   render(){
-    /*if (this.state.page == "getGroups") return <GetGroups _setGroups = {this._setGroups}/>
-    else if(this.state.page == "main"){
-      if(this.state.groups){
-        return <Main groups = {this.state.groups}/>
-      }else{
-        console.log("create groups first")
-        this.setState({page : "getGroups"})
-      }
-    } 
-    else if(this.state.page == "registration"){
-      if(this.state.groups){
-        return <Registration groups = {this.state.groups}/>
-      }else{
-        console.log("create groups first")
-        this.setState({page : "getGroups"})
-      }
-    }*/
-    if(this.state.groups){
-      return <Registration groups = {this.state.groups}/>
-    }
+    return(
+      <Router>
+        <Route exact path = '/' render = {props=>(
+          <Main groups = {this.state.groups}/>
+        )}/>
+        <Route path = '/registration' render ={props=>(
+          <Registration groups = {this.state.groups}/>
+        )}/> 
+      </Router>
+    )
   }
 }
 
