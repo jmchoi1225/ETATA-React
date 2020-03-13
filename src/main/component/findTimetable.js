@@ -10,16 +10,19 @@ function Condition({condition}){
     )
 }
 
-function ConditionList({conditions}){
+function ConditionList({conditions, _filter}){
     return(
-        <form action = ''>
-            <div id= "conditionsList">
-            {conditions.map ((condition, idx)=>{
-                return <Condition condition = {condition} key = {idx}/>;
-            })}
-            </div>
-            <input type="submit" value="Delete"/>
-        </form>
+        <div id= "conditionList">
+            <form action = ''>
+                <div id= "conditions">
+                {conditions.map ((condition, idx)=>{
+                    return <Condition condition = {condition} key = {idx}/>;
+                })}
+                </div>
+                <input type="submit" value="Delete"/>
+            </form>
+            <button onClick = {_filter}>Filter</button>
+        </div>
     ) 
 }
 
@@ -170,8 +173,10 @@ export default class FindTimetable extends React.Component{
                 <div id= "showResults">
                     <Timetables/>
                 </div>
-                <ConditionList conditions = {this.state.conditions}/>
-                <button onClick = {this._filter}>Filter</button>
+                <ConditionList
+                    conditions = {this.state.conditions}
+                    _filter = {this._filter}    
+                />
                 <AddConditions addConditions = {this.addConditions}/>
             </>
         )

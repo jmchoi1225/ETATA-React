@@ -157,9 +157,17 @@ td{
     float:right;
     margin-right: 8px; 
 }
-#conditionsList{
+#conditionList{
+    margin-top : 8px;
+}
+
+#conditionList input[type = 'submit'], #conditionList button{
+    margin-bottom : 4px;
+    float : right;
+}
+
+#conditions{
     float:left;
-    margin : 4px 0;
     font-size : 14px;
     border : 1px solid black;
     box-sizing : border-box;
@@ -167,7 +175,8 @@ td{
     height : 100px;
     width : 390px;
 }
-#conditionsList>ul{
+
+#conditions>ul{
     margin: 4px auto;
 }
 #addCondition{
