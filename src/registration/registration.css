@@ -12,11 +12,11 @@
     margin : 0 auto;
 }
 .group{
-    margin : 0 auto;
+    margin : 4px auto;
     padding : 10px;
     height : 80px;
     width : 450px;
-    border : solid;
+    border : 2px solid black;
 }
 .first{
     float : left;
@@ -62,4 +62,7 @@ hr{
     margin : 2px;
     padding : 2px;
     text-align : right;
+}
+#undoNredo > button{
+    margin-right : 4px;
 }
