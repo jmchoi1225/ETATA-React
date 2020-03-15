@@ -1,40 +1,42 @@
 import React from 'react';
 import '../../class/group';
 
-function Course({course,groupIdx,status,overlapCount,picked,index,_selected}){
-    let btnClass = 'course';
-    if(status == "default"){
-        if(picked){
+function Course(props){
+    const course = props.course
+    let btnClass = 'course'
+    if(props.status == "default"){
+        if(props.picked){
             btnClass += " picked"
-        }else if(overlapCount > 0){
+        }else if(props.overlapCount > 0){
             btnClass += " overlap"
         }else{
             btnClass += " default"
         }
     }
-    else btnClass += ' ' + status;
+    else btnClass += ' ' + props.status;
     return(
-        <button className = {btnClass} onClick = {() =>_selected(groupIdx, index, course.id)}>{course.id}</button>
+        <button className = {btnClass} onClick = {() =>props._selected(props.groupIdx, props.index, course.id)}>{course.id}</button>
     )
 }
 
-export default function Group ({group, curCourse, courseStatus, overlapCount,index,_selected,_handleChange}){
+export default function Group (props){
     const ranks = [0,1,2];
+    const group = props.group;
     return(
         <div className = "group">
             <div className = "first">
-                <div className = "groupContainer"> {group.name} </div>
+                <div className = "groupContainer"> {props.group.name} </div>
                 <hr/>
                 <div className = "groupContainer">
                     {group.firstIdx ?
                         <Course
                             course = {group.getCourse(group.firstIdx["rank"], group.firstIdx["idx"])}
-                            groupIdx = {index}
-                            status = {courseStatus[group.firstIdx["rank"]][group.firstIdx["idx"]]}
-                            overlapCount = {overlapCount[group.firstIdx["rank"]][group.firstIdx["idx"]]}
-                            picked = {curCourse && group.firstIdx["rank"] == curCourse["rank"] && group.firstIdx["idx"]==curCourse["idx"]}
+                            groupIdx = {props.index}
+                            status = {props.courseStatus[group.firstIdx["rank"]][group.firstIdx["idx"]]}
+                            overlapCount = {props.overlapCount[group.firstIdx["rank"]][group.firstIdx["idx"]]}
+                            //picked = {props.curCourse && group.firstIdx["rank"] == curCourse["rank"] && group.firstIdx["idx"]==curCourse["idx"]}
                             index = {group.firstIdx}
-                            _selected = {_selected}
+                            _selected = {props._selected}
                             key = {group.firstIdx}
                         /> 
                         :
@@ -42,8 +44,8 @@ export default function Group ({group, curCourse, courseStatus, overlapCount,ind
                     }
                 </div>
                 <div className = "groupContainer">
-                    <button className = "success" onClick = {()=>{_handleChange(index,curCourse, 'success')}}>성공</button>
-                    <button className = "fail" onClick = {()=>{_handleChange(index,curCourse,'fail')}} >실패</button>
+                    <button className = "success" onClick = {()=>{props._handleChange(props.index,props.curCourse, 'success')}}>성공</button>
+                    <button className = "fail" onClick = {()=>{props._handleChange(props.index,props.curCourse,'fail')}} >실패</button>
                 </div>
             </div>
             <div className = "courses">
@@ -51,14 +53,14 @@ export default function Group ({group, curCourse, courseStatus, overlapCount,ind
                     return(
                         <div className = "groupContainer">
                             {group.courses[rank].map((course, idx)=>{
-                                const picked = curCourse == undefined ? false : curCourse["rank"] == rank && curCourse["idx"] == idx
+                                const picked = props.curCourse == undefined ? false : props.curCourse["rank"] == rank && props.curCourse["idx"] == idx
                                 return <Course
                                     course = {course}
-                                    groupIdx = {index}
-                                    status = {courseStatus[rank][idx]}
-                                    overlapCount = {overlapCount[rank][idx]}
+                                    groupIdx = {props.index}
+                                    status = {props.courseStatus[rank][idx]}
+                                    overlapCount = {props.overlapCount[rank][idx]}
                                     picked = {picked}
-                                    _selected = {_selected}
+                                    _selected = {props._selected}
                                     index = {{"rank": rank, "idx": idx}}
                                     key = {[rank,idx]}
                                 />

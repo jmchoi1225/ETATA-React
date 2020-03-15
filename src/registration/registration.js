@@ -1,9 +1,8 @@
-import React, {useReducer}from 'react';
+import React, { useState }from 'react'
+import UseUndo from 'use-undo'
 import Group from './component/group'
 import Timetable from '../class/timetable'
 import './registration.css'
-
-//need to do undo & redo buttons
 
 const copyToClipboard = str => {
     const el = document.createElement('textarea');  // Create a <textarea> element
@@ -25,40 +24,29 @@ const copyToClipboard = str => {
     }
 };
 
+const Registration = (props) => {
 
-export default class Registration extends React.Component{
-    constructor(props){
-        super(props);
-        this.sameTime = this.__findSameTime()
-        this.state = {
-            finished : this.__initiateFinished(),
-            curCourse : this.__initiateCurCourse(), //: array[group] = {"rank" : rank , "idx" : idx}
-            overlapCount : this.__initiateOverlapCount(), //: 3D matrix [group][rank][idx]
-            courseStatus : this.__initiateCourseStatus(), //: 3D matrix [group][rank][idx] = "default" || "success" || "fail"
-        }
-    }
-
-    __findSameTime(){
-        const groups = this.props.groups;
+    const __findSameTime = () => {
+        const groups = props.groups;
         let timetable = new Timetable();
 
         return timetable._getSameTime(groups);
     }
 
-    __initiateFinished(){
-        const groups = this.props.groups;
+    const __initiateFinished = () => {
+        const groups = props.groups;
         const finished = new Array(groups.length).fill(false);
         return finished;
     }
 
-    __initiateCurCourse(){
-        const groups = this.props.groups;
+    const __initiateCurCourse = () =>{
+        const groups = props.groups;
         const finished = new Array(groups.length).fill(null);
         return finished;
     }
 
-    __initiateOverlapCount(){
-        const groups = this.props.groups;
+    const __initiateOverlapCount = () => {
+        const groups = props.groups;
         const overlapCount = new Array(groups.length);
         for(let g = 0; g < groups.length; g++){
             overlapCount[g] = new Array(3);
@@ -69,8 +57,8 @@ export default class Registration extends React.Component{
         return overlapCount;
     }
 
-    __initiateCourseStatus(){
-        const groups = this.props.groups;
+    const __initiateCourseStatus = () => {
+        const groups = props.groups;
         const courseStatus = new Array(groups.length);
         for(let g = 0; g < groups.length; g++){
             courseStatus[g] = new Array(3);
@@ -81,8 +69,42 @@ export default class Registration extends React.Component{
         return courseStatus;
     }
 
-    __getNewState(state, groupIdx, crsIdx, change){
-        const newState = state.map((group,g) =>{
+    const sameTime = __findSameTime()
+    const [curCourse, setCurCourse] = useState(__initiateCurCourse());
+
+    const [state, setState] = useState({
+        finished : __initiateFinished(),
+        overlapCount : __initiateOverlapCount(),
+        courseStatus : __initiateCourseStatus()
+    })
+
+    const [undo, {
+        set : addState,
+        reset : clearUndo,
+        undo : undoState,
+        redo : redoState,
+        canUndo,
+        canRedo
+    }] = UseUndo(state)
+
+    const _undo = () =>{
+        if(canUndo){
+            setState(undo.past[undo.past.length-1])
+            undoState()
+            setCurCourse(__initiateCurCourse())
+        }
+    }
+
+    const _redo = () =>{
+        if(canRedo){
+            setState(undo.future[0])
+            redoState()
+            setCurCourse(__initiateCurCourse())
+        }
+    }
+
+    const __getNewState = (curState, groupIdx, crsIdx, change) => {
+        const newState = curState.map((group,g) =>{
             if(crsIdx != undefined){
                 if(g==groupIdx){
                     return group.map((rank,r)=>{
@@ -105,11 +127,11 @@ export default class Registration extends React.Component{
         return newState;
     }
 
-    __processOverlap = (groupIdx,crsIdx, undo) => {
-        const overlapCrs = this.sameTime[groupIdx][crsIdx["rank"]][crsIdx["idx"]];
+    const __processOverlap = (groupIdx,crsIdx, undo) => {
+        const overlapCrs = sameTime[groupIdx][crsIdx["rank"]][crsIdx["idx"]];
         let overIdx = 0;
-        this.setState(state =>{
-            const newOverlapCount = state.overlapCount.map((group,g) =>{
+        return(
+            state.overlapCount.map((group,g) =>{
                 return group.map((rank,r)=>{
                     return rank.map((crsOverlapCount,i)=>{
                         if(g==overlapCrs[overIdx]["group"] && r == overlapCrs[overIdx]["rank"] && i == overlapCrs[overIdx]["idx"]){
@@ -119,63 +141,62 @@ export default class Registration extends React.Component{
                     })
                 })
             })
-            return {overlapCount : newOverlapCount};
-        })
+        );
     }
 
-    _selected = (groupIdx, crsIdx, crsID) => {
-        if(!this.state.finished[groupIdx]){
-            this.setState(state =>{
-                const newCurCourse = this.__getNewState(state.curCourse, groupIdx, null, crsIdx)
-                return {curCourse : newCurCourse}
-            });
+    const _selected = (groupIdx, crsIdx, crsID) => {
+        if(!state.finished[groupIdx]){
+            setCurCourse(__getNewState(curCourse, groupIdx, null, crsIdx));
             copyToClipboard(crsID);
         }
     }
 
-    _handleChange = (groupIdx, crsIdx, action) => {
-        if(crsIdx != undefined && !this.state.finished[groupIdx]){
-            this.setState(state =>{
-                const newStatus = this.__getNewState(state.courseStatus,groupIdx, crsIdx,action)
-                return {courseStatus : newStatus}
-            })
-            if(action == 'success'){
-                this.setState(state =>{
-                    const newFinished = this.__getNewState(state.finished, groupIdx, null, true)
-                    return {finished : newFinished}
-                });
-                this.__processOverlap(groupIdx, crsIdx, false)
-            }
+    const _handleChange = (groupIdx, crsIdx, action) => {
+        if(crsIdx != undefined && !state.finished[groupIdx]){
+            const courseStatus = __getNewState(state.courseStatus,groupIdx, crsIdx,action);
+            const finished = action == 'success' ? __getNewState(state.finished, groupIdx, null, true) : state.finished;
+            const overlapCount = action == 'success' ? __processOverlap(groupIdx, crsIdx, false) : state.overlapCount;
+            setState({
+                finished : finished,
+                overlapCount : overlapCount,
+                courseStatus : courseStatus
+            });
+            addState({
+                finished : finished,
+                overlapCount : overlapCount,
+                courseStatus : courseStatus
+            });
         }
     }
 
-    render(){
-        return(
-            <>
-            <div id = "header">
-                <h4>ETATA</h4>
+    return(
+        <>
+        <div id = "header">
+            <h4>ETATA</h4>
+        </div>
+        <div id = "content">
+            <div id = "undoNredo">
+                <button onClick = {_undo}>undo</button>
+                <button onClick = {_redo}>redo</button>
             </div>
-            <div id = "content">
-                <div id = "undoNredo">
-                    <button>undo</button>
-                    <button>redo</button>
-                </div>
-                {this.props.groups.map((group, idx)=>{
-                    return(
-                        <Group
-                            group = {group}
-                            curCourse = {this.state.curCourse[idx]}
-                            courseStatus = {this.state.courseStatus[idx]}
-                            overlapCount = {this.state.overlapCount[idx]}
-                            index = {idx}
-                            _selected = {this._selected}
-                            _handleChange = {this._handleChange}
-                            key = {idx}
-                        />
-                    )
-                })}
-            </div>
-            </>
-        );
-    }
+            {props.groups.map((group, idx)=>{
+                return(
+                    <Group
+                        group = {group}
+                        curCourse = {curCourse[idx]}
+                        courseStatus = {state.courseStatus[idx]}
+                        overlapCount = {state.overlapCount[idx]}
+                        index = {idx}
+                        _selected = {_selected}
+                        _handleChange = {_handleChange}
+                        key = {idx}
+                    />
+                )
+            })}
+        </div>
+        </>
+    );
 }
+
+
+export default Registration
