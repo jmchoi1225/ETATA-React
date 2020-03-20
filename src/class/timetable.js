@@ -1,28 +1,26 @@
-export default class Timetable{
+class Timetable{
     constructor(){
         this.weekdays = ['월', '화', '수', '목', '금'];
         this.times = ['A', 'B', 'C', 'D', 'E', 'F'];
+        this.courses = new Array();
         this.timetable = new Array(this.weekdays.length);
         for(let i = 0; i<this.weekdays.length; i++){
             this.timetable[i] = new Array(this.times.length);
-            for(let j = 0; j<this.times.length; j++){
-                this.timetable[i][j] = new Array();
-            }
         }
     }
 
-    determineChar(c){
+    __determineChar(c){
         if(this.weekdays.includes(c)) return {"type" : "weekdays", "idx" : this.weekdays.indexOf(c)};
         if(this.times.includes(c)) return {"type" : "times", "idx" : this.times.indexOf(c)};
         else return {"type" : false};
     }
 
-    str2arrLecTime(strLecTime){
+    __str2arrLecTime(strLecTime){
         let week = -1; //초기화
         let time = -1; //초기화
         let output = new Array();
-        for(let c = 0; c < strLecTime.length; c++){//lecTime의 string index
-            const result = this.determineChar(strLecTime[c])
+        for(let i =0; i<strLecTime.length; i++){//lecTime의 string index
+            const result = this.__determineChar(strLecTime[i])
             switch(result['type']){
                 case "weekdays":
                     if(week == -1 && time == -1){//week와 time 지정되지 않음
@@ -48,6 +46,61 @@ export default class Timetable{
         return output;
     }
 
+    _canAddCourse(course){
+        const lecTimes = this.__str2arrLecTime(course.lecTime);
+        let allowed = true;
+        for(let i = 0; i<lecTimes.length; i++){
+            const lecTime = lecTimes[i]
+            if(this.timetable[lecTime["week"]][lecTime["time"]] != undefined){
+                allowed = false;
+                break;
+            }
+        }
+        return allowed
+    }
+
+    _addCourse(course){
+        const lecTimes = this.__str2arrLecTime(course.lecTime);
+        if(this._canAddCourse(course)){
+            for(let i =0; i<lecTimes.length; i++){
+                const lecTime = lecTimes[i];
+                this.timetable[lecTime["week"]][lecTime["time"]] = course;
+            }
+            this.courses.push(course);
+            return true;
+        }
+        else return false;
+    }
+
+    _removeCourse(course){
+        const lecTimes = this.__str2arrLecTime(course.lecTime);
+        let allowed = false;
+        for(let i =0; i<lecTimes.length; i++){
+            const lecTime = lecTimes[i];
+            if(this.timetable[lecTime["week"]][lecTime["time"]] == course){
+                allowed = true;
+                this.timetable[lecTime["week"]][lecTime["time"]] = null;
+            }
+        }
+        if(this.courses.indexOf(course)>-1) this.courses.splice(this.courses.indexOf(course),1);
+        return allowed
+    }
+
+    _idxOfCrs = (course) =>{
+        return this.courses.indexOf(course);
+    }
+}
+
+class ComplexTimetable extends Timetable{
+    constructor(){
+        super();
+        for(let i = 0; i<this.weekdays.length; i++){
+            for(let j = 0; j<this.times.length; j++){
+                this.timetable[i][j] = new Array();
+            }
+        }
+    }
+
     _getSameTime(groups){ // checkOverlap of total data version
         const sameTime = new Array(groups.length);
         for(let g=0; g<groups.length; g++){
@@ -63,8 +116,8 @@ export default class Timetable{
             for(let rank = 0; rank<3; rank++){//for each rank
                 for(let crs = 0; crs< groups[g].courses[rank].length; crs++){ // for each course
                     const curCourse = groups[g].getCourse(rank,crs);
-                    const arrLecTime = this.str2arrLecTime(curCourse.lecTime);
-                    const result = this.checkOverlap(arrLecTime); // overlap courses crsIdx
+                    const arrLecTime = this.__str2arrLecTime(curCourse.lecTime);
+                    const result = this.__checkOverlap(arrLecTime); // overlap courses crsIdx
                     for(let o = 0; o<result.length; o++){
                         const oCrsIdx = result[o];
                         const oCrs = groups[oCrsIdx['group']].getCourse(oCrsIdx['rank'],oCrsIdx['idx']);
@@ -84,10 +137,10 @@ export default class Timetable{
         return sameTime;
     }
 
-    checkOverlap(lecTime){ //find overlap course
+    __checkOverlap(lecTime){ //find overlap course
         let output = new Array();
         if(typeof lecTime == "string"){
-            lecTime = this.str2arrLecTime(lecTime);
+            lecTime = this.__str2arrLecTime(lecTime);
         }
         for(let t = 0; t<lecTime.length; t++){
             const week = lecTime[t]["week"];
@@ -102,3 +155,5 @@ export default class Timetable{
     }
     
 }
+
+export {ComplexTimetable, Timetable}

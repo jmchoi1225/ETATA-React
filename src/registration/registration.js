@@ -1,7 +1,7 @@
 import React, { useState }from 'react'
 import UseUndo from 'use-undo'
 import Group from './component/group'
-import Timetable from '../class/timetable'
+import {ComplexTimetable} from '../class/timetable'
 import './registration.css'
 
 const copyToClipboard = str => {
@@ -28,7 +28,7 @@ const Registration = (props) => {
 
     const __findSameTime = () => {
         const groups = props.groups;
-        let timetable = new Timetable();
+        let timetable = new ComplexTimetable();
 
         return timetable._getSameTime(groups);
     }

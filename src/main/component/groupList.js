@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../class/group'
 
-function Group({groupName}){
+const Group = ({groupName}) =>{
     return(
         <div className = "groupItem">
             {groupName}
@@ -9,7 +9,7 @@ function Group({groupName}){
     )
 }
 
-export default function GroupList({groups}){
+const GroupList = ({groups}) => {
     return(
         <div id= "groupList">
             <h5>Group List</h5>
@@ -21,3 +21,5 @@ export default function GroupList({groups}){
         </div>
     )
 }
+
+export default GroupList

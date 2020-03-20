@@ -30,6 +30,7 @@
     display : block;
     margin-right : 8px;
     float : left;
+    font-size : 10px;
 }
 td{
     border:0.5px solid black;
@@ -192,12 +193,14 @@ td{
     clear:both;
     float: right;
     text-align : left;
+    margin-top : 2px;
 }
 .checkboxes{
     border : 1px solid black;
     display: inline-block;
-    width : 77px;
-    height : 21px;
+    box-sizing : border-box;
+    width : 79px;
+    height : 20px;
     overflow-y: scroll;
     font-size: 12px;
     background-color : white;
