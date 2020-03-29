@@ -1,6 +1,7 @@
 import React from 'react'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {Group, Course} from './class/group'
+import MakeGroups from './makeGroups/makeGroups'
 import Registration from './registration/registration'
 import Main from './main/main'
 import logo from './logo.svg';
@@ -42,6 +43,9 @@ class App extends React.Component {
       <Router>
         <Route exact path = '/' render = {props=>(
           <Main groups = {this.state.groups}/>
+        )}/>
+        <Route path = '/makeGroups' render = {props=>(
+          <MakeGroups groups = {this.state.groups}/>
         )}/>
         <Route path = '/registration' render ={props=>(
           <Registration groups = {this.state.groups}/>

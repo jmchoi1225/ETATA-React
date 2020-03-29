@@ -10,16 +10,16 @@ const connection = mysql.createConnection({
     database:'etata'
 })
 
-connection.connect((err)=>{
-    if(err) console.log(err);
-    else console.log("connected to database")
-})
-
 app.get('/getCourses', (req, res) => {
+    connection.connect((err)=>{
+        if(err) console.log(err);
+        else console.log("connected to database")
+    })
     connection.query('SELECT * FROM etata.course;', (err,data)=>{
         if(err) res.send(err)
         else res.json(data)
     })
+    connection.end()
 })
 
 app.listen(port, () => {
