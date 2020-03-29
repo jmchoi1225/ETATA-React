@@ -134,7 +134,7 @@ const Registration = (props) => {
             state.overlapCount.map((group,g) =>{
                 return group.map((rank,r)=>{
                     return rank.map((crsOverlapCount,i)=>{
-                        if(g==overlapCrs[overIdx]["group"] && r == overlapCrs[overIdx]["rank"] && i == overlapCrs[overIdx]["idx"]){
+                        if(overlapCrs[overIdx] && g==overlapCrs[overIdx]["group"] && r == overlapCrs[overIdx]["rank"] && i == overlapCrs[overIdx]["idx"]){
                             return crsOverlapCount + (undo ? -1:1); 
                         }
                         else return crsOverlapCount;
