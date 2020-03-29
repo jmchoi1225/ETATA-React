@@ -6,6 +6,8 @@ import Main from './main/main'
 import logo from './logo.svg';
 import './App.css';
 
+//context
+
 const tmpGroups = new Array();
 for(let g =0; g<3; g++){
   let tmpGroup;
