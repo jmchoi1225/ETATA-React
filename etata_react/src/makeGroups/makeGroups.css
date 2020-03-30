@@ -1,0 +1,31 @@
+.group{
+    margin : 4px auto;
+    padding : 10px;
+    height : 80px;
+    width : 450px;
+    border : 2px solid black;
+}
+
+.group > h5{
+    margin : 0;
+}
+
+.courselist {
+    width : 100%;
+}
+.rank{
+    height : 20px;
+    width : 100%;
+    box-sizing : border-box;
+    border-top : 1px solid black;
+    padding-top : 3px;
+}
+.course{
+    font-size : 12px;
+    padding-right : 2px; 
+}
+
+#showCourse{
+    border-collapse : collapse;
+    font-size : 12px;
+}

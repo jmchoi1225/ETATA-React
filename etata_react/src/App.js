@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState}from 'react'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {Group, Course} from './class/group'
 import MakeGroups from './makeGroups/makeGroups'
@@ -31,28 +31,22 @@ for(let g =0; g<3; g++){
 }
 
 
-class App extends React.Component {
-  state = {
-    groups : tmpGroups
-  }
-  _setGroups(groups){
-    this.setState({groups})
-  }
-  render(){
-    return(
-      <Router>
-        <Route exact path = '/' render = {props=>(
-          <Main groups = {this.state.groups}/>
-        )}/>
-        <Route path = '/makeGroups' render = {props=>(
-          <MakeGroups groups = {this.state.groups}/>
-        )}/>
-        <Route path = '/registration' render ={props=>(
-          <Registration groups = {this.state.groups}/>
-        )}/> 
-      </Router>
-    )
-  }
+const App  = ()=> {
+  const [groups, setGroups] = useState(tmpGroups);
+
+  return(
+    <Router>
+      <Route exact path = '/' render = {props=>(
+        <Main groups = {groups}/>
+      )}/>
+      <Route path = '/makeGroups' render = {props=>(
+        <MakeGroups _changeGroups = {setGroups} groups = {groups}/>
+      )}/>
+      <Route path = '/registration' render ={props=>(
+        <Registration groups = {groups}/>
+      )}/> 
+    </Router>
+  )
 }
 
 export default App;

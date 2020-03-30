@@ -1,0 +1,42 @@
+import React, {useState, useEffect} from 'react'
+import axios from 'axios'
+
+const ShowCourse =()=>{
+    const [courses, setCourses] = useState([]);
+    const courseFeatures = ['ID', 'Name', 'Professor', 'Credit', 'TotTime', 'LecTime', 'LecRoom', 'EngCredit', 'English']
+    useEffect( ()=>{
+        axios.get('/getCourses').then(res=>{
+            setCourses(res.data);
+        })
+    },[])
+
+    return (
+        <table id = 'showCourse'>
+            <thead>
+                <tr>
+                    {courseFeatures.map( feature =>{
+                        return <th>{feature}</th>
+                    })}
+                </tr>
+            </thead>
+            <tbody>
+                {courses.map(course =>{
+                    return <Course course = {course}/>
+                })}
+            </tbody>
+        </table>
+    )
+}
+
+const Course = ({course})=>{
+    const courseFeatures = ['ID', 'Name', 'Professor', 'Credit', 'TotTime', 'LecTime', 'LecRoom', 'EngCredit', 'English']
+    return (
+     <tr>
+        {courseFeatures.map(feature =>{
+            return <td>{course[feature]}</td>
+        })}
+     </tr> 
+    );
+}
+
+export default ShowCourse

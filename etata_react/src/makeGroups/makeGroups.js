@@ -1,18 +1,17 @@
-import React, { useState, useEffect }from 'react'
-import axios from 'axios'
+import React, {useState}from 'react'
+import {BrowserRouter as Router, Route, Link} from "react-router-dom"
 import Group from './component/group'
-import Course from './component/course'
+import ShowCourse from './component/showCourse'
+import AddGroup from './component/addGroup'
 import './makeGroups.css'
 
 const MakeGroups = (props) => {
     const [groups, setGroups] = useState(props.groups);
-    const [courses, setCourses] = useState([]);
-    
-    useEffect( ()=>{
-        axios.get('/getCourses').then(res=>{
-            setCourses(res.data);
-        })
-    },[])
+
+    const _addGroup = (group) =>{
+        setGroups([...groups, group])
+        console.log(groups)
+    }
 
     return(
         <>
@@ -24,12 +23,10 @@ const MakeGroups = (props) => {
                 {groups.map(group =>{
                     return <Group group = {group}/>
                 })}
+                <AddGroup _addGroup = {_addGroup}/>
             </div>
-            <div id="courseList">
-                {courses.map(course =>{
-                    return <Course course = {course}/>
-                })}
-            </div>
+            <ShowCourse/>
+            <Link to = '/' onClick={()=> props._changeGroups(groups)}>완료</Link>
         </div>
         </>
     );
