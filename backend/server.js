@@ -1,7 +1,7 @@
 const express = require('express')
 const mysql = require('mysql')
 const app = express()
-const port = 5000
+const port = 3306
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -15,7 +15,7 @@ connection.connect((err)=>{
     else console.log("connected to database")
 })
 
-app.get('/getCourses', (req, res) => {
+app.get('/courses', (req, res) => {
     connection.query('SELECT * FROM etata.course;', (err,data)=>{
         if(err) res.send(err)
         else res.json(data)

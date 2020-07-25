@@ -3,9 +3,9 @@ import axios from 'axios'
 
 const ShowCourse =()=>{
     const [courses, setCourses] = useState([]);
-    const courseFeatures = ['ID', 'Name', 'Professor', 'Credit', 'TotTime', 'LecTime', 'LecRoom', 'EngCredit', 'English']
+    const courseFeatures = ['ID', 'Name', 'Professor','LectureTime']
     useEffect( ()=>{
-        axios.get('/getCourses').then(res=>{
+        axios.get('/courses').then(res=>{
             setCourses(res.data);
         })
     },[])
@@ -29,7 +29,7 @@ const ShowCourse =()=>{
 }
 
 const Course = ({course})=>{
-    const courseFeatures = ['ID', 'Name', 'Professor', 'Credit', 'TotTime', 'LecTime', 'LecRoom', 'EngCredit', 'English']
+    const courseFeatures = ['id', 'name', 'professor','lectureTime']
     return (
      <tr>
         {courseFeatures.map(feature =>{
