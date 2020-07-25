@@ -1,4 +1,4 @@
-.group{
+.makeGroups_group{
     margin : 4px auto;
     padding : 10px;
     height : 80px;
@@ -6,26 +6,27 @@
     border : 2px solid black;
 }
 
-.group > h5{
+.makeGroups_group > h5{
     margin : 0;
 }
 
-.courselist {
+.makeGroups_courselist {
     width : 100%;
 }
-.rank{
+.makeGroups_rank{
     height : 20px;
     width : 100%;
     box-sizing : border-box;
     border-top : 1px solid black;
     padding-top : 3px;
+    margin-bottom: 3px;
 }
-.course{
+.makeGroups_course{
     font-size : 12px;
     padding-right : 2px; 
 }
 
-#showCourse{
+#makeGroups_showCourse{
     border-collapse : collapse;
     font-size : 12px;
 }

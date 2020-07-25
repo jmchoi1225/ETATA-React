@@ -19,7 +19,7 @@ const MakeGroups = (props) => {
             <h4>ETATA</h4>
         </div>
         <div id = "content">
-            <div id="groups">
+            <div id="makeGroups_groups">
                 {groups.map(group =>{
                     return <Group group = {group}/>
                 })}
