@@ -1,6 +1,7 @@
 class Course{
-    constructor(id, lecTime){
+    constructor(id, name, lecTime){
         this.id = id;
+        this.name = name;
         this.lecTime = lecTime;
     }
 }
