@@ -8,9 +8,18 @@ import './makeGroups.css'
 const MakeGroups = (props) => {
     const [groups, setGroups] = useState(props.groups);
 
+    const [newCourseGroupIdx, setNewCourseGroupIdx] = useState(-1);
+    const [newCourseRank, setNewCourseRank] = useState(-1);
+
     const _addGroup = (group) =>{
         setGroups([...groups, group])
         console.log(groups)
+    }
+
+    const _getGroupAndRankOfNewCourse = (groupIdx, rank) => {
+        setNewCourseGroupIdx(groupIdx);
+        setNewCourseRank(rank);
+        console.log("Group : ", newCourseGroupIdx," Rank : ", newCourseRank, " chosen");
     }
 
     return(
@@ -20,8 +29,14 @@ const MakeGroups = (props) => {
         </div>
         <div id = "content">
             <div id="makeGroups_groups">
-                {groups.map(group =>{
-                    return <Group group = {group}/>
+                {groups.map((group, gIdx) =>{
+                    return <Group
+                        group = {group}
+                        groupIdx = {gIdx}
+                        selectedGroup = {newCourseGroupIdx}
+                        selectedRank = {newCourseRank}
+                        _getGroupAndRankOfNewCourse = {_getGroupAndRankOfNewCourse}
+                    />
                 })}
                 <AddGroup _addGroup = {_addGroup}/>
             </div>

@@ -2,24 +2,19 @@ import React from 'react'
 
 import Course from './course'
 
-const NewCourse = () =>{
+const NewCourse = ({selected,_getGroupAndRankOfNewCourse}) =>{
+    console.log(selected)
     return (
-        <button className = "makeGroups_newCourse">
+        <button className = {"makeGroups_newCourse" + (selected ? " makeGroups_selected" : "")}
+        onClick = {() => {
+            _getGroupAndRankOfNewCourse()
+        }}>
             Add New Course
         </button>
     )
 }
 
-const NewGroup = () =>{
-    return(
-        <div className = "makeGroups_group">
-            <button>New Group</button>
-        </div>
-        
-    )
-}
-
-const Group = ({group})=>{
+const Group = ({group, groupIdx, selectedGroup, selectedRank,_getGroupAndRankOfNewCourse})=>{
     console.log(group)
     const ranks = [0,1,2]
     return (
@@ -31,10 +26,16 @@ const Group = ({group})=>{
                         <div className = "makeGroups_rank">
                             <table>
                                 {group.courses[rank].map((course, idx)=>{
-                                    return <Course course = {course}/>
+                                    return <Course
+                                        course = {course}
+                                        rank = {idx}
+                                    />
                                 })}
                             </table>
-                            <NewCourse/>
+                            <NewCourse
+                                selected = {selectedGroup == groupIdx && selectedRank == rank} 
+                                _getGroupAndRankOfNewCourse = {()=>{_getGroupAndRankOfNewCourse(groupIdx, rank)}}
+                            />
                         </div>
                     )
                 })} 
@@ -44,4 +45,3 @@ const Group = ({group})=>{
 }
 
 export default Group
-export {NewGroup}
