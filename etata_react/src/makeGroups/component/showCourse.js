@@ -11,20 +11,23 @@ const ShowCourse =()=>{
     },[])
 
     return (
-        <table id = 'makeGroups_showCourse'>
-            <thead>
-                <tr>
-                    {courseFeatures.map( feature =>{
-                        return <th>{feature}</th>
+        <div id = 'makeGroups_showCourse'>
+            <table>
+                <thead>
+                    <tr>
+                        {courseFeatures.map( feature =>{
+                            return <th>{feature}</th>
+                        })}
+                    </tr>
+                </thead>
+                <tbody>
+                    {courses.map(course =>{
+                        return <Course course = {course}/>
                     })}
-                </tr>
-            </thead>
-            <tbody>
-                {courses.map(course =>{
-                    return <Course course = {course}/>
-                })}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+        
     )
 }
 
