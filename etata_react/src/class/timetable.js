@@ -19,7 +19,7 @@ class Timetable{
         let week = -1; //초기화
         let time = -1; //초기화
         let output = new Array();
-        for(let i =0; i<strLecTime.length; i++){//lecTime의 string index
+        for(let i =0; i<strLecTime.length; i++){//lectureTime의 string index
             const result = this.__determineChar(strLecTime[i])
             switch(result['type']){
                 case "weekdays":
@@ -47,11 +47,11 @@ class Timetable{
     }
 
     _canAddCourse(course){
-        const lecTimes = this.__str2arrLecTime(course.lecTime);
+        const lectureTimes = this.__str2arrLecTime(course.lectureTime);
         let allowed = true;
-        for(let i = 0; i<lecTimes.length; i++){
-            const lecTime = lecTimes[i]
-            if(this.timetable[lecTime["week"]][lecTime["time"]] != undefined){
+        for(let i = 0; i<lectureTimes.length; i++){
+            const lectureTime = lectureTimes[i]
+            if(this.timetable[lectureTime["week"]][lectureTime["time"]] != undefined){
                 allowed = false;
                 break;
             }
@@ -60,11 +60,11 @@ class Timetable{
     }
 
     _addCourse(course){
-        const lecTimes = this.__str2arrLecTime(course.lecTime);
+        const lectureTimes = this.__str2arrLecTime(course.lectureTime);
         if(this._canAddCourse(course)){
-            for(let i =0; i<lecTimes.length; i++){
-                const lecTime = lecTimes[i];
-                this.timetable[lecTime["week"]][lecTime["time"]] = course;
+            for(let i =0; i<lectureTimes.length; i++){
+                const lectureTime = lectureTimes[i];
+                this.timetable[lectureTime["week"]][lectureTime["time"]] = course;
             }
             this.courses.push(course);
             return true;
@@ -73,13 +73,13 @@ class Timetable{
     }
 
     _removeCourse(course){
-        const lecTimes = this.__str2arrLecTime(course.lecTime);
+        const lectureTimes = this.__str2arrLecTime(course.lectureTime);
         let allowed = false;
-        for(let i =0; i<lecTimes.length; i++){
-            const lecTime = lecTimes[i];
-            if(this.timetable[lecTime["week"]][lecTime["time"]] == course){
+        for(let i =0; i<lectureTimes.length; i++){
+            const lectureTime = lectureTimes[i];
+            if(this.timetable[lectureTime["week"]][lectureTime["time"]] == course){
                 allowed = true;
-                this.timetable[lecTime["week"]][lecTime["time"]] = null;
+                this.timetable[lectureTime["week"]][lectureTime["time"]] = null;
             }
         }
         if(this.courses.indexOf(course)>-1) this.courses.splice(this.courses.indexOf(course),1);
@@ -116,7 +116,7 @@ class ComplexTimetable extends Timetable{
             for(let rank = 0; rank<3; rank++){//for each rank
                 for(let crs = 0; crs< groups[g].courses[rank].length; crs++){ // for each course
                     const curCourse = groups[g].getCourse(rank,crs);
-                    const arrLecTime = this.__str2arrLecTime(curCourse.lecTime);
+                    const arrLecTime = this.__str2arrLecTime(curCourse.lectureTime);
                     const result = this.__checkOverlap(arrLecTime); // overlap courses crsIdx
                     for(let o = 0; o<result.length; o++){
                         const oCrsIdx = result[o];
@@ -137,14 +137,14 @@ class ComplexTimetable extends Timetable{
         return sameTime;
     }
 
-    __checkOverlap(lecTime){ //find overlap course
+    __checkOverlap(lectureTime){ //find overlap course
         let output = new Array();
-        if(typeof lecTime == "string"){
-            lecTime = this.__str2arrLecTime(lecTime);
+        if(typeof lectureTime == "string"){
+            lectureTime = this.__str2arrLecTime(lectureTime);
         }
-        for(let t = 0; t<lecTime.length; t++){
-            const week = lecTime[t]["week"];
-            const time = lecTime[t]["time"];
+        for(let t = 0; t<lectureTime.length; t++){
+            const week = lectureTime[t]["week"];
+            const time = lectureTime[t]["time"];
             for(let j  = 0; j<this.timetable[week][time].length; j++){//겹치는 강의를 output에 넣음
                 if(!output.includes(this.timetable[week][time][j])){
                     output.push(this.timetable[week][time][j]);
