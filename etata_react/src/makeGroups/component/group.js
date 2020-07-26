@@ -1,7 +1,22 @@
 import React from 'react'
 
-const Course = ({course}) =>{
-    return <span className = "course">Course: {course.name} ID : {course.id} Time : {course.lecTime}  </span>
+import Course from './course'
+
+const NewCourse = () =>{
+    return (
+        <button className = "makeGroups_newCourse">
+            Add New Course
+        </button>
+    )
+}
+
+const NewGroup = () =>{
+    return(
+        <div className = "makeGroups_group">
+            <button>New Group</button>
+        </div>
+        
+    )
 }
 
 const Group = ({group})=>{
@@ -14,9 +29,12 @@ const Group = ({group})=>{
                 {ranks.map(rank =>{
                     return(
                         <div className = "makeGroups_rank">
-                            {group.courses[rank].map((course, idx)=>{
-                                return <Course course = {course}/>
-                            })}
+                            <table>
+                                {group.courses[rank].map((course, idx)=>{
+                                    return <Course course = {course}/>
+                                })}
+                            </table>
+                            <NewCourse/>
                         </div>
                     )
                 })} 
@@ -26,3 +44,4 @@ const Group = ({group})=>{
 }
 
 export default Group
+export {NewGroup}

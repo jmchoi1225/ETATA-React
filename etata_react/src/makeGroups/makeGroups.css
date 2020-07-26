@@ -1,29 +1,41 @@
 .makeGroups_group{
-    margin : 4px auto;
-    padding : 10px;
-    height : 80px;
+    margin : auto;
+    padding : 3px 10px;
     width : 450px;
     border : 2px solid black;
 }
 
 .makeGroups_group > h5{
     margin : 0;
+    text-align: center;
 }
 
 .makeGroups_courselist {
     width : 100%;
+    font-size: 12px;
 }
 .makeGroups_rank{
-    height : 20px;
     width : 100%;
     box-sizing : border-box;
     border-top : 1px solid black;
-    padding-top : 3px;
-    margin-bottom: 3px;
+    padding-top : 1px;
+    margin-bottom: 1px;
+}
+
+.makeGroups_rank table{
+    width : 100%;
+    border-collapse: collapse;
+    border : none;
+}
+
+.makeGroups_rank td{
+    width : 25%;
+    border: none;
 }
 .makeGroups_course{
     font-size : 12px;
     padding-right : 2px; 
+    width : 100%;
 }
 
 #makeGroups_showCourse{
@@ -34,6 +46,14 @@
     width : 100%;
     height : 250px;
     overflow-y: scroll;
+}
+
+.makeGroups_newCourse{
+    margin-top : 10px;
+    text-align: center;
+    height : 15px;
+    width : 100%;
+    font-size: 10px;
 }
 
 #makeGroups_showCourse table{

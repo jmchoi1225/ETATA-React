@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 
+import Course from "./course"
+
 const ShowCourse =()=>{
     const [courses, setCourses] = useState([]);
     const courseFeatures = ['ID', 'Name', 'Professor','LectureTime']
@@ -29,17 +31,6 @@ const ShowCourse =()=>{
         </div>
         
     )
-}
-
-const Course = ({course})=>{
-    const courseFeatures = ['id', 'name', 'professor','lectureTime']
-    return (
-     <tr>
-        {courseFeatures.map(feature =>{
-            return <td>{course[feature]}</td>
-        })}
-     </tr> 
-    );
 }
 
 export default ShowCourse
