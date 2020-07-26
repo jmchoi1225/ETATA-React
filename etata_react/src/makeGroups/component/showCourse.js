@@ -11,7 +11,7 @@ const ShowCourse =()=>{
     },[])
 
     return (
-        <table id = 'showCourse'>
+        <table id = 'makeGroups_showCourse'>
             <thead>
                 <tr>
                     {courseFeatures.map( feature =>{
