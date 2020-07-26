@@ -25,11 +25,7 @@ const ShowCourse =({_addCourse})=>{
                 <tbody>
                     {courses.map(course =>{
                         return (
-                            <div>
-                                <Course course = {course}/>
-                                <button onClick = {()=>{_addCourse(course)}}>선택</button>
-                            </div>
-                            
+                            <Course course = {course} onClick = {()=>{_addCourse(course)}}/>
                         )
                     })}
                 </tbody>
