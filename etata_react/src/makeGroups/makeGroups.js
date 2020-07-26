@@ -4,6 +4,7 @@ import Group from './component/group'
 import ShowCourse from './component/showCourse'
 import AddGroup from './component/addGroup'
 import './makeGroups.css'
+import Course from './component/course'
 
 const MakeGroups = (props) => {
     const [groups, setGroups] = useState(props.groups);
@@ -13,13 +14,22 @@ const MakeGroups = (props) => {
 
     const _addGroup = (group) =>{
         setGroups([...groups, group])
-        console.log(groups)
     }
 
     const _getGroupAndRankOfNewCourse = (groupIdx, rank) => {
         setNewCourseGroupIdx(groupIdx);
         setNewCourseRank(rank);
-        console.log("Group : ", newCourseGroupIdx," Rank : ", newCourseRank, " chosen");
+    }
+
+    const _addCourse = (course) => {
+        setGroups(groups.map((group,idx)=>{
+            if(idx==newCourseGroupIdx){
+                group.addCourse(newCourseRank,course);
+                return group;
+            }else return group;
+        }))
+        setNewCourseGroupIdx(-1);
+        setNewCourseRank(-1);
     }
 
     return(
@@ -40,7 +50,10 @@ const MakeGroups = (props) => {
                 })}
                 <AddGroup _addGroup = {_addGroup}/>
             </div>
-            <ShowCourse/>
+            {newCourseGroupIdx!=-1 && newCourseRank !=-1 ?
+                <ShowCourse
+                    _addCourse= {_addCourse}
+                /> : null}
             <Link to = '/' onClick={()=> props._changeGroups(groups)}>완료</Link>
         </div>
         </>

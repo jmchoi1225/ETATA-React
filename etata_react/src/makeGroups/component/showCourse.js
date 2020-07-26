@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import Course from "./course"
 
-const ShowCourse =()=>{
+const ShowCourse =({_addCourse})=>{
     const [courses, setCourses] = useState([]);
     const courseFeatures = ['ID', 'Name', 'Professor','LectureTime']
     useEffect( ()=>{
@@ -24,7 +24,13 @@ const ShowCourse =()=>{
                 </thead>
                 <tbody>
                     {courses.map(course =>{
-                        return <Course course = {course}/>
+                        return (
+                            <div>
+                                <Course course = {course}/>
+                                <button onClick = {()=>{_addCourse(course)}}>선택</button>
+                            </div>
+                            
+                        )
                     })}
                 </tbody>
             </table>
