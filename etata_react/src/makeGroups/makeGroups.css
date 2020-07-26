@@ -29,4 +29,10 @@
 #makeGroups_showCourse{
     border-collapse : collapse;
     font-size : 12px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+#makeGroups_showCourse th{
+    width: 100px;
 }
