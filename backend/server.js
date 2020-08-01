@@ -30,6 +30,16 @@ app.put('/users/groups', (req, res)=>{
     })
 })
 
+app.get('/users/groups', (req, res)=>{
+    const {userId} = req.query
+    connection.query('SELECT userGroups FROM etata.user WHERE userId = '+ userId, (err,data)=>{
+        if(err) res.send(err)
+        else {
+            res.send(JSON.parse(JSON.stringify(data))[0].userGroups)
+        }
+    })
+})
+
 app.listen(port, () => {
     console.log('listening on port: ', port)
 })
