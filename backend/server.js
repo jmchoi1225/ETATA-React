@@ -22,6 +22,14 @@ app.get('/courses', (req, res) => {
     })
 })
 
+app.put('/users/groups', (req, res)=>{
+    const {userId, userGroups} = req.query
+    connection.query("UPDATE etata.user SET userGroups = '" + JSON.stringify(req.query) + "' WHERE userId = " + userId + ";", (err, data)=>{
+        if(err) res.send(err)
+        else res.json(data)
+    })
+})
+
 app.listen(port, () => {
     console.log('listening on port: ', port)
 })
