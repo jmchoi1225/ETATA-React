@@ -1,4 +1,4 @@
-import React, {useState}from 'react'
+import React, {useState, useEffect}from 'react'
 import {BrowserRouter as Router, Route, Link} from "react-router-dom"
 import Group from './component/group'
 import ShowCourse from './component/showCourse'
@@ -7,13 +7,15 @@ import './makeGroups.css'
 import Course from './component/course'
 
 const MakeGroups = (props) => {
+    
     const [groups, setGroups] = useState(props.groups);
-
+    
     const [newCourseGroupIdx, setNewCourseGroupIdx] = useState(-1);
     const [newCourseRank, setNewCourseRank] = useState(-1);
 
     const _addGroup = (group) =>{
-        setGroups([...groups, group])
+        if(groups) setGroups([...groups, group])
+        else setGroups([group])
     }
 
     const _getGroupAndRankOfNewCourse = (groupIdx, rank) => {
@@ -39,7 +41,7 @@ const MakeGroups = (props) => {
         </div>
         <div id = "content">
             <div id="makeGroups_groups">
-                {groups.map((group, gIdx) =>{
+                {groups && groups.map((group, gIdx) =>{
                     return <Group
                         group = {group}
                         groupIdx = {gIdx}

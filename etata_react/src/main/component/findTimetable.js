@@ -34,7 +34,7 @@ const Input = ({input}) => {
                 <>
                     <input list= {input.name} name= {input.name} style = {input.style}/>
                     <datalist id= {input.name}>
-                        {input.options.map(option =>{
+                        {input.option && input.options.map(option =>{
                             return (
                                 <option value = {option}></option>
                             )
@@ -45,7 +45,7 @@ const Input = ({input}) => {
         case 'checkbox':
             return(
                 <div class="checkboxes">
-                    {input.options.map(option=>{
+                    {input.option && input.options.map(option=>{
                         return (
                             <>
                             <input type="checkbox" name = {input.name} value = {option}/> {option}<br/>
@@ -137,7 +137,7 @@ const FindTimetable = (props) => {
                 {
                     name : 'course',
                     type : 'list',
-                    options : props.groups.map(group =>{
+                    options : props.groups && props.groups.map(group =>{
                         return [0,1,2].map(r =>{
                             return group.courses[r].map(course =>{
                                 let str = course.id;
@@ -247,6 +247,7 @@ const FindTimetable = (props) => {
         }
 
         const __getTimetables = (gIdx) =>{
+            if(props.groups==null) return;
             if(gIdx == props.groups.length){
                 timetables.push(cloneObject(testTimetable));
                 return;

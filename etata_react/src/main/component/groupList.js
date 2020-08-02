@@ -14,7 +14,8 @@ const GroupList = ({groups}) => {
         <div id= "groupList">
             <h5>Group List</h5>
             <hr/>
-            {groups.map(group =>{
+            {groups &&
+            groups.map(group =>{
                 return <Group groupName = {group.name}/>
             })}
             <button>수강신청 도우미</button>
