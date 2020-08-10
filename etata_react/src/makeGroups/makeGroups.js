@@ -5,13 +5,28 @@ import ShowCourse from './component/showCourse'
 import AddGroup from './component/addGroup'
 import './makeGroups.css'
 import Course from './component/course'
+import axios from 'axios'
+
+const userId = 1;
 
 const MakeGroups = (props) => {
-    
-    const [groups, setGroups] = useState(props.groups);
+
+    const [groups, setGroups] = useState();
     
     const [newCourseGroupIdx, setNewCourseGroupIdx] = useState(-1);
     const [newCourseRank, setNewCourseRank] = useState(-1);
+
+    useEffect(()=>{
+        axios({
+            method : "get",
+            url : '/users/groups',
+            params: {
+                userId, 
+            },
+        }).then(res => {
+            setGroups(res.data)
+        })
+    }, [])
 
     const _addGroup = (group) =>{
         if(groups) setGroups([...groups, group])
