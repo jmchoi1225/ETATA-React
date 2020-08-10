@@ -49,6 +49,15 @@ const MakeGroups = (props) => {
         setNewCourseRank(-1);
     }
 
+    const _deleteCourse = (groupIdx, rank, idx) => {
+        setGroups(groups.map((group, g) =>{
+            if(groupIdx == g){
+                group.deleteCourse(rank, idx);
+                return group
+            }else return group
+        }))
+    }
+
     return(
         <>
         <div id = "header">
@@ -63,6 +72,7 @@ const MakeGroups = (props) => {
                         selectedGroup = {newCourseGroupIdx}
                         selectedRank = {newCourseRank}
                         _getGroupAndRankOfNewCourse = {_getGroupAndRankOfNewCourse}
+                        _deleteCourse = {_deleteCourse}
                     />
                 })}
                 <AddGroup _addGroup = {_addGroup}/>

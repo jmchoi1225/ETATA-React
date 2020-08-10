@@ -14,7 +14,7 @@ const NewCourse = ({selected,_getGroupAndRankOfNewCourse}) =>{
     )
 }
 
-const Group = ({group, groupIdx, selectedGroup, selectedRank,_getGroupAndRankOfNewCourse})=>{
+const Group = ({group, groupIdx, selectedGroup, selectedRank,_getGroupAndRankOfNewCourse, _deleteCourse})=>{
     console.log(group)
     const ranks = [0,1,2]
     return (
@@ -29,6 +29,7 @@ const Group = ({group, groupIdx, selectedGroup, selectedRank,_getGroupAndRankOfN
                                     return <Course
                                         course = {course}
                                         rank = {idx}
+                                        _deleteCourse = {_deleteCourse(groupIdx, rank, idx)}
                                     />
                                 })}
                             </table>
