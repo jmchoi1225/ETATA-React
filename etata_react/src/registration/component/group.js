@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../class/group';
+import {Group} from '../../domain/group';
 
 function Course(props){
     const course = props.course
@@ -19,7 +19,7 @@ function Course(props){
     )
 }
 
-export default function Group (props){
+export default function GroupComponent (props){
     const ranks = [0,1,2];
     const group = props.group;
     return(

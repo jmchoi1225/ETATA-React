@@ -1,7 +1,7 @@
 import React, { useState }from 'react'
 import UseUndo from 'use-undo'
 import Group from './component/group'
-import {ComplexTimetable} from '../class/timetable'
+import {ComplexTimetable} from '../domain/timetable'
 import './registration.css'
 
 const copyToClipboard = str => {

@@ -1,5 +1,5 @@
 import './main.css';
-import '../class/group';
+import {Group} from '../domain/group';
 import GroupList from './component/groupList';
 import {Timetable, Timetables, BigTimetable} from './component/timetable';
 import FindTimetable from './component/findTimetable'

@@ -2,10 +2,9 @@ import React from 'react'
 
 import Course from './course'
 
-const NewCourse = ({selected,_getGroupAndRankOfNewCourse}) =>{
-    console.log(selected)
+const AddCourse = ({selected,_getGroupAndRankOfNewCourse}) =>{
     return (
-        <button className = {"makeGroups_newCourse" + (selected ? " makeGroups_selected" : "")}
+        <button className = {"grouplist_newCourse" + (selected ? " grouplist_selected" : "")}
         onClick = {() => {
             _getGroupAndRankOfNewCourse()
         }}>
@@ -15,25 +14,23 @@ const NewCourse = ({selected,_getGroupAndRankOfNewCourse}) =>{
 }
 
 const Group = ({group, groupIdx, selectedGroup, selectedRank,_getGroupAndRankOfNewCourse, _deleteCourse})=>{
-    console.log(group)
     const ranks = [0,1,2]
     return (
-        <div className = "makeGroups_group">
+        <div className = "grouplist_group">
             <h5> {group.name} </h5>
-            <div className = "makeGroups_courselist">
+            <div className = "grouplist_courselist">
                 {ranks.map(rank =>{
                     return(
-                        <div className = "makeGroups_rank">
+                        <div className = "grouplist_rank">
                             <table>
                                 {group.courses[rank].map((course, idx)=>{
                                     return <Course
                                         course = {course}
-                                        rank = {idx}
-                                        _deleteCourse = {_deleteCourse(groupIdx, rank, idx)}
+                                        onClick = {() => {_deleteCourse(groupIdx, rank, idx)}}
                                     />
                                 })}
                             </table>
-                            <NewCourse
+                            <AddCourse
                                 selected = {selectedGroup == groupIdx && selectedRank == rank} 
                                 _getGroupAndRankOfNewCourse = {()=>{_getGroupAndRankOfNewCourse(groupIdx, rank)}}
                             />

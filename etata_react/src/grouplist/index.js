@@ -1,36 +1,31 @@
 import React, {useState, useEffect}from 'react'
-import {BrowserRouter as Router, Route, Link} from "react-router-dom"
-import Group from './component/group'
-import ShowCourse from './component/showCourse'
-import AddGroup from './component/addGroup'
-import './makeGroups.css'
-import Course from './component/course'
+import {Link} from "react-router-dom"
 import axios from 'axios'
+
+import GroupComponent from './component/group'
+import ChooseCourse from './component/chooseCourse'
+import AddGroup from './component/addGroup'
+
+import {Group} from '../domain/group'
+
+import './grouplist.css'
+
 
 const userId = 1;
 
-const MakeGroups = (props) => {
+const Grouplist = (props) => {
 
-    const [groups, setGroups] = useState();
-    
+    const [grouplist, setGrouplist] = useState(props.grouplist);
     const [newCourseGroupIdx, setNewCourseGroupIdx] = useState(-1);
     const [newCourseRank, setNewCourseRank] = useState(-1);
 
     useEffect(()=>{
-        axios({
-            method : "get",
-            url : '/users/groups',
-            params: {
-                userId, 
-            },
-        }).then(res => {
-            setGroups(res.data)
-        })
-    }, [])
+        setGrouplist(props.grouplist)
+    },[props.grouplist])
 
     const _addGroup = (group) =>{
-        if(groups) setGroups([...groups, group])
-        else setGroups([group])
+        if(grouplist) setGrouplist([...grouplist, group])
+        else setGrouplist([group])
     }
 
     const _getGroupAndRankOfNewCourse = (groupIdx, rank) => {
@@ -39,7 +34,7 @@ const MakeGroups = (props) => {
     }
 
     const _addCourse = (course) => {
-        setGroups(groups.map((group,idx)=>{
+        setGrouplist(grouplist.map((group,idx)=>{
             if(idx==newCourseGroupIdx){
                 group.addCourse(newCourseRank,course);
                 return group;
@@ -50,7 +45,7 @@ const MakeGroups = (props) => {
     }
 
     const _deleteCourse = (groupIdx, rank, idx) => {
-        setGroups(groups.map((group, g) =>{
+        setGrouplist(grouplist.map((group, g) =>{
             if(groupIdx == g){
                 group.deleteCourse(rank, idx);
                 return group
@@ -64,11 +59,11 @@ const MakeGroups = (props) => {
             <h4>ETATA</h4>
         </div>
         <div id = "content">
-            <div id="makeGroups_groups">
-                {groups && groups.map((group, gIdx) =>{
-                    return <Group
+            <div id="grouplist_groups">
+                {grouplist && grouplist.map((group, g) =>{
+                    return <GroupComponent
                         group = {group}
-                        groupIdx = {gIdx}
+                        groupIdx = {g}
                         selectedGroup = {newCourseGroupIdx}
                         selectedRank = {newCourseRank}
                         _getGroupAndRankOfNewCourse = {_getGroupAndRankOfNewCourse}
@@ -78,14 +73,14 @@ const MakeGroups = (props) => {
                 <AddGroup _addGroup = {_addGroup}/>
             </div>
             {newCourseGroupIdx!=-1 && newCourseRank !=-1 ?
-                <ShowCourse
+                <ChooseCourse
                     _addCourse= {_addCourse}
                 /> : null}
-            <Link to = '/' onClick={()=> props._changeGroups(groups)}>완료</Link>
+            <Link to = '/' onClick={()=> {props._changeGroups(grouplist)}}>완료</Link>
         </div>
         </>
     );
 }
 
 
-export default MakeGroups
+export default Grouplist

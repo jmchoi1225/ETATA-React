@@ -23,14 +23,13 @@ app.get('/courses', (req, res) => {
     })
 })
 
-app.put('/users/groups', (req, res)=>{
-    let {userId, userGroups} = req.query
-    console.log(userGroups)
-    if(!userGroups) userGroups = 'null'
-    else userGroups = '[' + userGroups + ']'
+app.put('/users/grouplist', (req, res)=>{
+    let {userId, userGrouplist} = req.query
+    if(!userGrouplist) userGrouplist = 'null'
+    else userGrouplist = '[' + userGrouplist + ']'
     
-    connection.query("UPDATE etata.user SET userGroups = '" + userGroups + "' WHERE userId = " + userId, (err, data)=>{
-        console.log("updating user ", userId, " groups to ", userGroups)
+    connection.query("UPDATE etata.user SET userGroups = '" + userGrouplist + "' WHERE userId = " + userId, (err, data)=>{
+        console.log("updating user ", userId, " groups to ", userGrouplist)
         if(err) {
             console.log("got error : ", err)
             res.send(err)
@@ -43,13 +42,12 @@ app.put('/users/groups', (req, res)=>{
     })
 })
 
-app.get('/users/groups', (req, res)=>{
+app.get('/users/grouplist', (req, res)=>{
     const {userId} = req.query
     connection.query('SELECT userGroups FROM etata.user WHERE userId = '+ userId, (err,data)=>{
-        console.log("getting user's groups")
         if(err) res.send(err)
         else {
-            console.log(JSON.parse(JSON.stringify(data))[0].userGroups)
+            console.log("got user ", userId, " grouplist : ", JSON.parse(JSON.stringify(data))[0].userGroups)
             res.send(JSON.parse(JSON.stringify(data))[0].userGroups)
         }
     })

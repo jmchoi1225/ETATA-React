@@ -25,12 +25,14 @@ class Group{
         this.crsLength[rank]++;
     }
     deleteCourse(rank, idx){
+        console.log(this.crsLength[rank], idx)
         if(this.crsLength[rank]<=idx){
             console.log("the course is not available")
         }
         else{
-            this.courses[rank] = this.courses[rank].splice(idx,1)
-            this.crsLength[rank]--;
+            this.courses[rank].splice(idx,1)
+            console.log("courses : ", this.courses[rank])
+            this.crsLength[rank]--;   
         }
     }
 }

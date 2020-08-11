@@ -1,4 +1,4 @@
-.makeGroups_group{
+.grouplist_group{
     margin : auto;
     margin-bottom : 10px;
     padding : 3px 10px;
@@ -6,27 +6,27 @@
     border : 2px solid black;
 }
 
-.makeGroups_newGroup{
+.grouplist_newGroup{
     text-align: center;
     font-size: 12px;
 }
 
-.makeGroups_newGroup button{
+.grouplist_newGroup button{
     width  :100px;
     font-size : 12px;
     margin-top : 5px;
 }
 
-.makeGroups_group > h5{
+.grouplist_group > h5{
     margin : 0;
     text-align: center;
 }
 
-.makeGroups_courselist {
+.grouplist_courselist {
     width : 100%;
     font-size: 12px;
 }
-.makeGroups_rank{
+.grouplist_rank{
     width : 100%;
     box-sizing : border-box;
     border-top : 1px solid black;
@@ -34,24 +34,24 @@
     margin-bottom: 1px;
 }
 
-.makeGroups_rank table{
+.grouplist_rank table{
     width : 100%;
     border-collapse: collapse;
     border : none;
 }
 
-.makeGroups_rank td{
+.grouplist_rank td{
     width : 25%;
     border: none;
     text-align: center;
 }
-.makeGroups_course{
+.grouplist_course{
     font-size : 12px;
     padding-right : 2px; 
     width : 100%;
 }
 
-#makeGroups_showCourse{
+#grouplist_showCourse{
     /*display: none;*/
     position: fixed;
     bottom:0px;
@@ -61,7 +61,7 @@
     overflow-y: scroll;
 }
 
-.makeGroups_newCourse{
+.grouplist_newCourse{
     margin-top : 5px;
     text-align: center;
     height : 15px;
@@ -69,17 +69,17 @@
     font-size: 10px;
 }
 
-#makeGroups_showCourse table{
+#grouplist_showCourse table{
     font-size : 12px;
     text-align: center;
     border-collapse : collapse;
     margin-left: auto;
     margin-right: auto;
 }
-#makeGroups_showCourse th{
+#grouplist_showCourse th{
     width: 150px;
 }
 
-.makeGroups_selected{
+.grouplist_selected{
     color : red;
 }

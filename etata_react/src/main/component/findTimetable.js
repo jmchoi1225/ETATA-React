@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import '../../class/group'
+import {Group} from '../../domain/group'
 import {Timetables} from './timetable'
-import { Timetable } from '../../class/timetable';
+import { Timetable } from '../../domain/timetable';
 
 const Condition = ({condition}) => {
     return(

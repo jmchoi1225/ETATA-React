@@ -7,13 +7,15 @@ const ShowCourse =({_addCourse})=>{
     const [courses, setCourses] = useState([]);
     const courseFeatures = ['ID', 'Name', 'Professor','LectureTime']
     useEffect( ()=>{
-        axios.get('/courses').then(res=>{
-            setCourses(res.data);
-        })
+        if(courses != []){
+            axios.get('/courses').then(res=>{
+                setCourses(res.data);
+            })
+        }
     },[])
 
     return (
-        <div id = 'makeGroups_showCourse'>
+        <div id = 'grouplist_showCourse'>
             <table>
                 <thead>
                     <tr>

@@ -1,7 +1,7 @@
 import React from 'react';
-import '../../class/group'
+import {Group} from '../../domain/group'
 
-const Group = ({groupName}) =>{
+const GroupComponent = ({groupName}) =>{
     return(
         <div className = "groupItem">
             {groupName}
@@ -16,7 +16,7 @@ const GroupList = ({groups}) => {
             <hr/>
             {groups &&
             groups.map(group =>{
-                return <Group groupName = {group.name}/>
+                return <GroupComponent groupName = {group.name}/>
             })}
             <button>수강신청 도우미</button>
         </div>

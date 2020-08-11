@@ -1,12 +1,15 @@
 import React, {useState, useEffect}from 'react'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
-import {Group, Course} from './class/group'
-import MakeGroups from './makeGroups/makeGroups'
+import axios from 'axios'
+
+import Grouplist from './grouplist'
 import Registration from './registration/registration'
 import Main from './main/main'
+
 import logo from './logo.svg';
 import './App.css';
-import axios from 'axios'
+
+import {Group} from './domain/group'
 
 const userId = 1 //create this as context later
 
@@ -34,25 +37,36 @@ for(let g =0; g<3; g++){
 
 
 const App  = ()=> {
-  const [groups, setGroups] = useState(null);
+  const [grouplist, setGroups] = useState(null);
 
   useEffect(()=>{
-    const params = {
-      userId
-    }
-    axios.get('/users/groups', {params}).then(res=>{
-      setGroups(res.data);
+    axios({
+      method : "get",
+      url : '/users/grouplist',
+      params: {
+          userId, 
+      },
+    }).then(res=>{
+      if(res.data){
+        let tempGrouplist = []
+        for(let i =0; i< res.data.length; i ++){
+          const tempGroup = Object.assign(new Group, res.data[i])
+          tempGrouplist.push(tempGroup)
+        }
+        setGroups(tempGrouplist);
+      }
     })
   },[])
 
-  async function _changeGroups(groups) {
-    setGroups(groups);
+  async function _changeGroups(newGrouplist) {
+    console.log("changing grouplist" , newGrouplist)
+    setGroups(newGrouplist);
     await axios({
       method : "put",
-      url : '/users/groups',
+      url : '/users/grouplist',
       params: {
         userId,
-        userGroups : groups, 
+        userGrouplist : newGrouplist, 
       },
     })
   }
@@ -60,13 +74,13 @@ const App  = ()=> {
   return(
     <Router>
       <Route exact path = '/' render = {props=>(
-        <Main groups = {groups}/>
+        <Main grouplist = {grouplist}/>
       )}/>
-      <Route path = '/makeGroups' render = {props=>(
-        <MakeGroups _changeGroups = {_changeGroups} groups = {groups}/>
+      <Route path = '/grouplist' render = {props=>(
+        <Grouplist _changeGroups = {_changeGroups} grouplist = {grouplist}/>
       )}/>
       <Route path = '/registration' render ={props=>(
-        <Registration groups = {groups}/>
+        <Registration grouplist = {grouplist}/>
       )}/> 
     </Router>
   )

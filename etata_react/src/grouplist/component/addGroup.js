@@ -1,11 +1,11 @@
 import React, {useState}from 'react'
-import {Group} from '../../class/group'
+import {Group} from '../../domain/group'
 
 const AddGroups = (props) => {
     const [groupName, setGroupName] = useState('');
 
 return(
-    <div className = "makeGroups_group makeGroups_newGroup">
+    <div className = "grouplist_group grouplist_newGroup">
         <div>
             <span>그룹 이름: </span>
             <input type = 'text' onChange = {(e) => setGroupName(e.target.value)}/>
