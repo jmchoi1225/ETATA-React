@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import Grouplist from './grouplist'
 import Registration from './registration/registration'
-import Main from './main/main'
+import Main from './main'
 
 import logo from './logo.svg';
 import './App.css';

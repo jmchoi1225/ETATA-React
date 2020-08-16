@@ -3,16 +3,21 @@ import {Group} from '../domain/group';
 import GroupList from './component/groupList';
 import {Timetable, Timetables, BigTimetable} from './component/timetable';
 import FindTimetable from './component/findTimetable'
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 
 const Main = (props) => {
+    const [grouplist, setGrouplist] = useState();
     const [bigTimetable,setBigTimetable] = useState();
     
+    useEffect(()=>{
+        setGrouplist(props.grouplist)
+    }, [props.grouplist])
+
     const _seeDetails = (timetable) => {
         setBigTimetable(timetable);
     }
-    
+
     return(
         <>
             <div className = "header">
@@ -20,7 +25,7 @@ const Main = (props) => {
             </div>
             <div className = "container">
                 <div className = "leftColumn">
-                    <GroupList groups = {props.groups}/>    
+                    <GroupList grouplist = {grouplist}/>    
                     <BigTimetable timetable = {bigTimetable}/>
                     <div className = 'bottomColumn'>
                         <div id = "firstPick">
@@ -32,7 +37,7 @@ const Main = (props) => {
                     </div>   
                 </div>
                 <div className= "rightColumn">
-                    <FindTimetable groups = {props.groups} _seeDetails = {_seeDetails}/>
+                    <FindTimetable grouplist = {grouplist} _seeDetails = {_seeDetails}/>
                 </div>
             </div>        
         </>
