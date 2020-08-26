@@ -53,6 +53,10 @@ const Grouplist = (props) => {
         }))
     }
 
+    const _deleteGroup = (groupIdx) =>{
+        setGrouplist(grouplist.filter((group,g)=> g!=groupIdx ))
+    }
+
     return(
         <>
         <div id = "header">
@@ -68,6 +72,7 @@ const Grouplist = (props) => {
                         selectedRank = {newCourseRank}
                         _getGroupAndRankOfNewCourse = {_getGroupAndRankOfNewCourse}
                         _deleteCourse = {_deleteCourse}
+                        _deleteGroup = {()=>{_deleteGroup(g)}}
                     />
                 })}
                 <AddGroup _addGroup = {_addGroup}/>
