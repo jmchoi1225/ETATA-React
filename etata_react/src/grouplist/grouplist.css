@@ -23,6 +23,16 @@
     text-align: center;
 }
 
+.grouplist_finished {
+    text-align : center;
+    width : 100%;
+}
+
+.grouplist_finished button {
+    width : 100px;
+    font-size : 12px;
+}
+
 .grouplist_deleteGroup {
     font-size : 10px;
     text-align : center;

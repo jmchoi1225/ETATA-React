@@ -81,7 +81,11 @@ const Grouplist = (props) => {
                 <ChooseCourse
                     _addCourse= {_addCourse}
                 /> : null}
-            <Link to = '/' onClick={()=> {props._changeGroups(grouplist)}}>완료</Link>
+            <div className = "grouplist_finished">
+                <Link to = '/'>
+                    <button onClick={()=> {props._changeGroups(grouplist)}}>완료</button>
+                </Link>
+            </div>
         </div>
         </>
     );
