@@ -18,7 +18,7 @@ class Service{
     }
 
     updateGrouplist(userId, userGrouplist){
-        return new Promise (userId, userGrouplist, (resolve, reject) => {
+        return new Promise ((resolve, reject) => {
             this.repository.updateGrouplist(userId, userGrouplist)
                 .then(res=>{
                     resolve(res)
@@ -30,11 +30,9 @@ class Service{
     }
 
     getGrouplist(userId){
-        console.log("service get grouplist")
         return new Promise ((resolve, reject) => {
             this.repository.getGrouplist(userId)
                 .then(grouplist=>{
-                    console.log("service", grouplist)
                     resolve(grouplist)
                 })
                 .catch(err=>{

@@ -1,4 +1,3 @@
-const Group = require('./domain/group')
 const mysql = require('mysql')
 
 class Repository{
@@ -37,7 +36,6 @@ class Repository{
     }
 
     getGrouplist(userId){
-        console.log("repository get grouplist")
         return new Promise((resolve, reject)=>{
             this.connection.query('SELECT userGroups FROM etata.user WHERE userId = '+ userId, (err,data)=>{
                 if(err) return reject(err)
