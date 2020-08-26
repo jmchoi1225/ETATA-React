@@ -4,6 +4,7 @@
     padding : 3px 10px;
     width : 550px;
     border : 2px solid black;
+    position : relative;
 }
 
 .grouplist_newGroup{
@@ -20,6 +21,14 @@
 .grouplist_group > h5{
     margin : 0;
     text-align: center;
+}
+
+.grouplist_deleteGroup {
+    font-size : 10px;
+    text-align : center;
+    position : absolute;
+    right : 10px;
+    top : 2px;
 }
 
 .grouplist_courselist {

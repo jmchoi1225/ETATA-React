@@ -18,7 +18,7 @@ const Group = ({group, groupIdx, selectedGroup, selectedRank,_getGroupAndRankOfN
     return (
         <div className = "grouplist_group">
             <h5> {group.name} </h5>
-            <button onClick = {_deleteGroup}>삭제</button>
+            <button className = "grouplist_deleteGroup" onClick = {_deleteGroup}>delete</button>
             <div className = "grouplist_courselist">
                 {ranks.map(rank =>{
                     return(
