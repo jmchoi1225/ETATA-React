@@ -52,43 +52,4 @@ const Timetables = ({timetables, _seeDetails}) => {
       
 }
 
-const BigTimetable = ({timetable}) => {
-    const weekdays = ['월', '화', '수', '목', '금']
-    const periods = ['A', 'B', 'C', 'D', 'E', 'F']
-    const color = ['red', 'orange', 'yellow', 'green', 'blue', 'dark-blue', 'violet']
-    return(
-        <div id="showTimetable">   
-            <table class="bigTimetable">   
-                <tr>
-                    <th></th>
-                    {weekdays.map(weekday =>{
-                        return <th>{weekday}</th>
-                    })}             
-                </tr>
-                {periods.map((period, pIdx)=>{
-                    return(
-                        <tr>
-                            <th>{period}</th>
-                            {weekdays.map((weekday, wIdx) =>{
-                                if(timetable == undefined) return <td></td>
-                                else{
-                                    let style = null;
-                                    if(timetable.timetable[wIdx][pIdx]!=null){
-                                        style = {'background-color' : color[
-                                            (timetable.courses.map((course) => {
-                                                return course.id
-                                            })).indexOf(timetable.timetable[wIdx][pIdx].id)]
-                                        }
-                                    }
-                                    return <td style = {style}>{timetable.timetable[wIdx][pIdx] ? timetable.timetable[wIdx][pIdx].id : null}</td>
-                                }
-                            })}
-                        </tr>
-                    )
-                })}
-            </table>
-        </div>
-    )
-}
-
-export {Timetable, Timetables, BigTimetable};
+export {Timetable, Timetables};

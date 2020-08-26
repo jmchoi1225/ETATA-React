@@ -1,7 +1,8 @@
 import './main.css';
 import {Group} from '../domain/group';
 import GroupList from './component/groupList';
-import {Timetable, Timetables, BigTimetable} from './component/timetable';
+import {Timetable, Timetables} from './component/timetable';
+import BigTimetable from './component/bigTimetable';
 import FindTimetable from './component/findTimetable'
 import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
