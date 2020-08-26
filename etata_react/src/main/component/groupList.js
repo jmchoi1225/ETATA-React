@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom"
 import {Group} from '../../domain/group'
 
 const GroupComponent = ({groupName}) =>{
@@ -18,7 +19,9 @@ const GroupList = ({grouplist}) => {
             grouplist.map(group =>{
                 return <GroupComponent groupName = {group.name}/>
             })}
-            <button>수강신청 도우미</button>
+            <Link to = "/grouplist">
+                <button>EDIT</button>
+            </Link>
         </div>
     )
 }
