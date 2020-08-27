@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import axios from 'axios'
 
 import Grouplist from './grouplist'
-import Registration from './registration/registration'
+import Registration from './registration'
 import Main from './main'
 
 import logo from './logo.svg';

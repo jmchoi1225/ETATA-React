@@ -1,7 +1,7 @@
-import React, { useState }from 'react'
+import React, { useState, useEffect }from 'react'
 import UseUndo from 'use-undo'
 import Group from './component/group'
-import {ComplexTimetable} from '../domain/timetable'
+import RegistrationHelper from '../domain/registrationHelper'
 import './registration.css'
 
 const copyToClipboard = str => {
@@ -27,57 +27,49 @@ const copyToClipboard = str => {
 const Registration = (props) => {
 
     const __findSameTime = () => {
-        const groups = props.groups;
-        let timetable = new ComplexTimetable();
+        console.log(grouplist)
+        let registrationHelper = new RegistrationHelper();
 
-        return timetable._getSameTime(groups);
+        return registrationHelper._getSameTime(grouplist);
     }
 
     const __initiateFinished = () => {
-        const groups = props.groups;
-        const finished = new Array(groups.length).fill(false);
+        const finished = new Array(grouplist.length).fill(false);
         return finished;
     }
 
     const __initiateCurCourse = () =>{
-        const groups = props.groups;
-        const finished = new Array(groups.length).fill(null);
+        const finished = new Array(grouplist.length).fill(null);
         return finished;
     }
 
     const __initiateOverlapCount = () => {
-        const groups = props.groups;
-        const overlapCount = new Array(groups.length);
-        for(let g = 0; g < groups.length; g++){
+        const overlapCount = new Array(grouplist.length);
+        for(let g = 0; g < grouplist.length; g++){
             overlapCount[g] = new Array(3);
             for(let rank = 0; rank <3; rank++){
-                overlapCount[g][rank] = new Array(groups[g].crsLength[rank]).fill(0);
+                overlapCount[g][rank] = new Array(grouplist[g].crsLength[rank]).fill(0);
             }
         }
         return overlapCount;
     }
 
     const __initiateCourseStatus = () => {
-        const groups = props.groups;
-        const courseStatus = new Array(groups.length);
-        for(let g = 0; g < groups.length; g++){
+        const courseStatus = new Array(grouplist.length);
+        for(let g = 0; g < grouplist.length; g++){
             courseStatus[g] = new Array(3);
             for(let rank = 0; rank <3; rank++){
-                courseStatus[g][rank] = new Array(groups[g].crsLength[rank]).fill("default");
+                courseStatus[g][rank] = new Array(grouplist[g].crsLength[rank]).fill("default");
             }
         }
         return courseStatus;
     }
 
-    const sameTime = __findSameTime()
-    const [curCourse, setCurCourse] = useState(__initiateCurCourse());
-
-    const [state, setState] = useState({
-        finished : __initiateFinished(),
-        overlapCount : __initiateOverlapCount(),
-        courseStatus : __initiateCourseStatus()
-    })
-
+    const [grouplist, setGrouplist] = useState(props.grouplist);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [sameTime, setSameTime] = useState();
+    const [curCourse, setCurCourse] = useState();
+    const [state, setState] = useState();
     const [undo, {
         set : addState,
         reset : clearUndo,
@@ -86,6 +78,24 @@ const Registration = (props) => {
         canUndo,
         canRedo
     }] = UseUndo(state)
+
+
+    useEffect(()=>{
+        setGrouplist(props.grouplist)
+    },[props.grouplist])
+
+    useEffect(()=>{
+        if(grouplist){
+            setSameTime(__findSameTime())
+            setCurCourse(__initiateCurCourse())
+            setState({
+                finished : __initiateFinished(),
+                overlapCount : __initiateOverlapCount(),
+                courseStatus : __initiateCourseStatus()
+            })
+            setIsLoaded(true)
+        }
+    },[grouplist])
 
     const _undo = () =>{
         if(canUndo){
@@ -179,7 +189,8 @@ const Registration = (props) => {
                 <button onClick = {_undo}>undo</button>
                 <button onClick = {_redo}>redo</button>
             </div>
-            {props.groups.map((group, idx)=>{
+            {isLoaded ? 
+                grouplist.map((group, idx)=>{
                 return(
                     <Group
                         group = {group}
@@ -191,8 +202,9 @@ const Registration = (props) => {
                         _handleChange = {_handleChange}
                         key = {idx}
                     />
-                )
-            })}
+                )}) :
+                null
+            }
         </div>
         </>
     );
