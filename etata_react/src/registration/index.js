@@ -27,9 +27,7 @@ const copyToClipboard = str => {
 const Registration = (props) => {
 
     const __findSameTime = () => {
-        console.log(grouplist)
         let registrationHelper = new RegistrationHelper();
-
         return registrationHelper._getSameTime(grouplist);
     }
 
@@ -77,7 +75,7 @@ const Registration = (props) => {
         redo : redoState,
         canUndo,
         canRedo
-    }] = UseUndo(state)
+    }] = UseUndo()
 
 
     useEffect(()=>{
@@ -93,12 +91,17 @@ const Registration = (props) => {
                 overlapCount : __initiateOverlapCount(),
                 courseStatus : __initiateCourseStatus()
             })
+            addState({
+                finished : __initiateFinished(),
+                overlapCount : __initiateOverlapCount(),
+                courseStatus : __initiateCourseStatus()
+            })
             setIsLoaded(true)
         }
     },[grouplist])
 
     const _undo = () =>{
-        if(canUndo){
+        if(canUndo && undo.past[undo.past.length-1]){
             setState(undo.past[undo.past.length-1])
             undoState()
             setCurCourse(__initiateCurCourse())
