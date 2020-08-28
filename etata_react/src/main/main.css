@@ -106,7 +106,7 @@ td{
     padding: 8px 0;
     overflow:hidden;
 }
-#firstPick{
+.firstPick{
     margin : 0 4px;
     border: 1px solid black;
     background-color : grey;
@@ -115,7 +115,7 @@ td{
     padding : 8px;
     float : left;
 }
-#selectedTimetables{
+.selectedTimetables{
     margin : 0 4px;
     box-sizing : border-box;
     width : 450px;

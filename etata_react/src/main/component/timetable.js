@@ -1,15 +1,27 @@
 import React from 'react';
+import { useDrag } from 'react-dnd'
 
 const Timetable = ({timetable, _seeDetails}) => {
     const weekdays = ['월', '화', '수', '목', '금']
     const periods = ['A', 'B', 'C', 'D', 'E', 'F']
     const color = ['red', 'orange', 'yellow', 'green', 'blue', 'dark-blue', 'violet']
+    
+    const [{isDragging}, drag] = useDrag({
+        item:{
+            type: 'timetable',
+            timetable : timetable
+        },
+        collect: (monitor)=>({
+            isDragging:!!monitor.isDragging(),
+        }),
+    })
+    
     if(!timetable) return null;
     else{
         const table = timetable.timetable;
         const courses = timetable.courses;
         return(
-            <table className= "timetable">
+            <table className= "timetable" ref = {drag}>
                 <tbody>
                     {periods.map( (period, pIdx) =>{
                         return(
