@@ -215,3 +215,9 @@ td{
 #addCondition > form > input[type =submit]{
     width : 50px;
 }
+
+.registrationButton {
+    margin-top : 20px;
+    width : 100%;
+    text-align: center;
+}
